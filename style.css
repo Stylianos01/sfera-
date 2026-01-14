@@ -1,61 +1,82 @@
-html, body {
-   height: 100%;
+:root {
+  --core-red: #250101;
+  --glow-red: rgba(180, 20, 10, 0.8);
+  --corona-color: rgba(229, 4, 4, 0.3);
+  --bg-dark: #050300;
+}
+
+/* ================= BASE / ΒΑΣΙΚΑ ΣΤΟΙΧΕΙΑ ================= */
+* {
+  box-sizing: border-box;
 }
 
 body {
-    padding:0;
-    margin:0;
-    background: #050300;
-
-    height: 100%;
-    overflow: hidden;
+  margin: 0;
+  min-height: 100vh;
+  background: var(--bg-dark);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
 }
 
-#sfera{
-    display: block;
-    position: relative;
-    cursor: pointer;
-    height: 7em;
-    width: 7em;
-    top: 50%;
-    margin: -7.5em auto;
-    border-radius: 50%;
-  
+/* ================= RED SPHERE / Η ΚΟΚΚΙΝΗ ΣΦΑΙΡΑ ================= */
+#sfera {
+  position: relative;
+  z-index: 15;
+  /* Reduced size for elegance / Μειωμένο μέγεθος για κομψότητα */
+  width: clamp(90px, 11.25vw, 216px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  cursor: pointer;
 
-  box-shadow: 0 3em 2.5em -2.5em rgba(58, 0, 0, 0.871), 
-	          0 0 1em -0.35em rgba(36, 1, 1, 0.882), 
-	          0 -1em 1.1em 0 rgba(40, 1, 1, 0.5) inset, 
-	          0 0 2.5em 0 rgba(0, 0, 0, 0.4) inset;
-	
-  background: 
-              radial-gradient(circle at 33% -25%, 
-              rgba(255, 255, 255, 0) 40%,
-              rgba(0, 0, 0, 0.07) 50%), 
-              radial-gradient(circle at 50% 135%, 
-              rgba(0, 0, 0, 0.23) 43%, 
-              rgba(255, 255, 255, 0)), 
-              radial-gradient(circle at 50% -35%, 
-              rgba(229, 4, 4, 0.8) 45%, 
-              rgba(255, 255, 255, 0)), 
-              radial-gradient(circle at 50% 0, 
-              #250101, 
-              #2f0303);
+  background:
+    radial-gradient(circle at 33% -25%, transparent 40%, rgba(0, 0, 0, 0.07) 50%),
+    radial-gradient(circle at 50% 135%, rgba(0, 0, 0, 0.23) 43%, transparent),
+    radial-gradient(circle at 50% -35%, rgba(229, 4, 4, 0.8) 45%, transparent),
+    radial-gradient(circle at 50% 0, var(--core-red), #2f0303);
 
-  background-size: 150%, 100%, 100%, 100%;
+  box-shadow:
+    0 0 3em var(--glow-red),
+    0 0 6em rgba(120, 0, 0, 0.4),
+    inset 0 -1em 1.1em rgba(40, 1, 1, 0.5),
+    inset 0 0 2.5em rgba(0, 0, 0, 0.4);
+    
+  animation: pulse 4s ease-in-out infinite;
+  will-change: transform, opacity;
 }
 
+/* ================= GRAIN EFFECT / ΕΦΕ ΘΟΡΥΒΟΥ ================= */
 .grain {
-	z-index: 10;
-	position: absolute;
-	pointer-events: none;
-	width: 100%;
-	height: 100%;
-	top: 0;
-	bottom: 0;
-	margin: auto;
-	background: 
-  radial-gradient(circle at 50% 50%, #000, #0000),
-		url("data:image/svg+xml,%3Csvg viewBox='0 0 600 600' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='2' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-	filter: contrast(100%) brightness(200%) grayscale(1) opacity(0.168);
-	mix-blend-mode: screen;
+  position: fixed;
+  /* Extends outside to hide edges / Απλώνεται έξω για να κρύψει τις άκρες */
+  inset: -5%;
+  pointer-events: none;
+  z-index: 10;
+
+  background:
+    radial-gradient(circle at 50% 50%, #000000, transparent),
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 600 600' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.02' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+
+  filter: contrast(120%) brightness(180%) grayscale(2) opacity(0.12);
+  mix-blend-mode: screen;
+}
+
+/* ================= ANIMATIONS / ΚΙΝΗΣΗ ================= */
+@keyframes pulse {
+  0%, 100% { 
+    transform: scale(1); 
+    filter: brightness(1); 
+  }
+  50% { 
+    transform: scale(1.1); 
+    filter: brightness(1.4); 
+  }
+}
+
+/* ================= ACCESSIBILITY / ΠΡΟΣΒΑΣΙΜΟΤΗΤΑ ================= */
+@media (prefers-reduced-motion: reduce) {
+  #sfera {
+    animation: none;
+  }
 }
