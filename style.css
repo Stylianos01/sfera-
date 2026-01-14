@@ -22,7 +22,11 @@ body {
     border-radius: 50%;
   
 
-  box-shadow: 0 3em 2.5em -2.5em rgba(58, 0, 0, 0.871), 0 0 1em -0.35em rgba(36, 1, 1, 0.882), 0 -1em 1.1em 0 rgba(40, 1, 1, 0.5) inset, 0 0 2.5em 0 rgba(0, 0, 0, 0.4) inset;
+  box-shadow: 0 3em 2.5em -2.5em rgba(58, 0, 0, 0.871), 
+	          0 0 1em -0.35em rgba(36, 1, 1, 0.882), 
+	          0 -1em 1.1em 0 rgba(40, 1, 1, 0.5) inset, 
+	          0 0 2.5em 0 rgba(0, 0, 0, 0.4) inset;
+	
   background: 
               radial-gradient(circle at 33% -25%, 
               rgba(255, 255, 255, 0) 40%,
